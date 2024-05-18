@@ -107,7 +107,8 @@ extension SearchVC  {
     
     @objc func pushFollowersList() {
         
-        guard isUserNameEntered else {
+        guard isUserNameEntered,
+              let userName = userNameTextField.text else {
             
 //            let gfAlertVC = GFAlertVC(alertTitle: "Title can be this long so that can be easily visible to the user", alertDescription: "Baby you light up my world like nobody else, the way that you flip your hair gets me overwhelmed, but when you smile at the ground it ain't hard to tell you don't know oh-oh, you don't know you're beatiful.", buttonText: "OKAYYYY")
 //            
@@ -122,9 +123,7 @@ extension SearchVC  {
             return
         }
         
-        let followersListVC = FollowersListVC()
-        followersListVC.userName = userNameTextField.text
-        followersListVC.title = userNameTextField.text
+        let followersListVC = FollowersListVC(userName: userName)
         
         navigationController?.pushViewController(followersListVC, animated: true)
     }
