@@ -5,10 +5,11 @@
 //  Created by Venkatesham Boddula on 16/05/24.
 //
 
-import Foundation
+import UIKit
 
 final class NetworkManager {    
     static let shared: NetworkManager = NetworkManager()
+    let imageCache:NSCache = NSCache<NSString, UIImage>()
     private init() {}
     
     func makeAPICall<T: Codable>(apiCall: ApiCall) async -> Result<T, ApiError> {
@@ -37,6 +38,18 @@ final class NetworkManager {
             } else {
                 return .failure(.somethingWentWrong)
             }
+        }
+    }
+    
+    func downloadImage(from url: String) async -> Data? {
+        guard let url = URL(string: url) else { return nil }
+        do {
+            let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
+            guard let response = response as? HTTPURLResponse,
+                  response.statusCode == 200 else { return nil }
+            return data
+        } catch {
+            return nil
         }
     }
 }
