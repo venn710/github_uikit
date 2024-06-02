@@ -14,6 +14,7 @@ class FollowersListVC: UIViewController {
     var filteredFollowers: [Follower] = []
     var pageCount: Int = 1
     var hasMoreFollowers: Bool = true
+    var isSearching: Bool = false
     
     var collectionView: UICollectionView?
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>?
@@ -51,7 +52,7 @@ class FollowersListVC: UIViewController {
         
         Task {
             showLoader()
-            try? await Task.sleep(for: .seconds(2))
+//            try? await Task.sleep(for: .seconds(2))
             let response: Result<[Follower], ApiError> = await NetworkManager.shared.makeAPICall(apiCall: ApiEndPoints.getFollowers(userName: userName, page: pageCount))
             dismissLoader()
             
@@ -175,6 +176,13 @@ extension FollowersListVC: UICollectionViewDelegate {
             getFollowers()
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let followersList: [Follower] = isSearching ? filteredFollowers : followers
+        let selectedFollower = followersList[indexPath.row]
+        let userDetailsVC = UserDetailsVC(follower: selectedFollower)
+        present(UINavigationController(rootViewController: userDetailsVC), animated: true)
+    }
 }
 
 ///// Method-2 to implement DataSource
@@ -195,6 +203,7 @@ extension FollowersListVC: UICollectionViewDelegate {
 extension FollowersListVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text, searchText.isNotEmpty else { return }
+        isSearching.toggle()
         filteredFollowers = followers.filter { _follower in
             _follower.login.lowercased().contains(searchText.lowercased())
         }
@@ -204,6 +213,7 @@ extension FollowersListVC: UISearchResultsUpdating {
 /// To Implement SearchBar button functionality.
 extension FollowersListVC: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        isSearching.toggle()
         updateCollectionView(with: followers)
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 enum ApiEndPoints {
     case getFollowers(userName: String, page: Int)
+    case getUserData(login: String)
 }
 
 extension ApiEndPoints: ApiCall {
@@ -16,12 +17,16 @@ extension ApiEndPoints: ApiCall {
         switch self {
         case .getFollowers(let userName, let page):
             return "/users/\(userName)/followers?per_page=100&page=\(page)"
+        case .getUserData(let login):
+            return "/users/\(login)"
         }
     }
     
     var method: String {
         switch self {
         case .getFollowers:
+            return "get"
+        case .getUserData:
             return "get"
         }
     }

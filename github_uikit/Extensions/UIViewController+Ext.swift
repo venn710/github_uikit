@@ -7,7 +7,7 @@
 
 import UIKit
 
-fileprivate var loaderContainerView: UIView?
+fileprivate var loaderContainerView: UIView!
 
 extension UIViewController {
     

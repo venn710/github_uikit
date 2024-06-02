@@ -19,13 +19,4 @@ struct User: Codable {
     var following: Int
     var followers: Int
     var createdAt: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case avatarUrl = "avatar_url"
-        case publicRepos = "public_repos"
-        case publicGists = "public_gists"
-        case htmlUrl = "html_url"
-        case createdAt = "created_at"
-        case login, name, location, bio, following, followers
-    }
 }
