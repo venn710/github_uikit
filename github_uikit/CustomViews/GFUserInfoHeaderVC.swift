@@ -34,8 +34,7 @@ class GFUserInfoHeaderVC: UIViewController {
         view.addSubview(hStackView)
         
         NSLayoutConstraint.activate([
-            hStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            hStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+            hStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             ])
         
         let imageView = GFAvatarImageView(frame: .zero)
@@ -47,16 +46,16 @@ class GFUserInfoHeaderVC: UIViewController {
         
         let vStackView = UIStackView()
         vStackView.axis = .vertical
-        vStackView.spacing = 8
+        vStackView.spacing = 4
         vStackView.translatesAutoresizingMaskIntoConstraints = false
         vStackView.alignment = .leading
         
         let userNameLabel = GFTitleLabel(
-            titleTextAlignment: .center, titleTextColor: .black, titleFontSize: 26)
+            titleTextAlignment: .center, titleTextColor: .label, titleFontSize: 26)
         let nameLabel = GFTitleLabel(
-            titleTextAlignment: .center, titleTextColor: .systemGray3, titleFontSize: 14)
+            titleTextAlignment: .center, titleTextColor: .secondaryLabel, titleFontSize: 14)
         let locationLabel = GFTitleLabel(
-            titleTextAlignment: .center, titleTextColor: .systemGray3, titleFontSize: 16)
+            titleTextAlignment: .center, titleTextColor: .secondaryLabel, titleFontSize: 18)
     
         
         userNameLabel.text = userDetails.login
@@ -73,27 +72,18 @@ class GFUserInfoHeaderVC: UIViewController {
         
         hStackView.addArrangedSubview(vStackView)
         
-        let bioLabel = GFTitleLabel(
-            titleTextAlignment: .left, titleTextColor: .systemGray4, titleFontSize: 18)
-        bioLabel.text = userDetails.bio
-        bioLabel.numberOfLines = 5
-    
+        let bioLabel = GFBodyLabel(bodyTextAlignment: .left, bodyTextColor: .secondaryLabel)
+        bioLabel.text = userDetails.bio?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "No bio available"
+        bioLabel.numberOfLines = 3
+        bioLabel.lineBreakMode = .byTruncatingTail
+        view.addSubview(bioLabel)
         
-        if userDetails.bio != nil {
-            view.addSubview(bioLabel)
-        }
-            
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalToConstant: 100),
-            imageView.widthAnchor.constraint(equalToConstant: 100)
+            imageView.widthAnchor.constraint(equalToConstant: 100),
+            bioLabel.topAnchor.constraint(equalTo: hStackView.bottomAnchor, constant: 20),
+            bioLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-        
-        if userDetails.bio != nil {
-            NSLayoutConstraint.activate([
-                bioLabel.topAnchor.constraint(equalTo: hStackView.bottomAnchor, constant: 20),
-                bioLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-            ])
-        }
     }
 }

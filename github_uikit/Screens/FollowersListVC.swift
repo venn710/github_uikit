@@ -132,8 +132,8 @@ class FollowersListVC: UIViewController {
         searchBarController.searchBar.placeholder = "Search for a username"
         searchBarController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchBarController
-    }
-    
+        navigationItem.hidesSearchBarWhenScrolling = false
+    }    
 }
 
 extension FollowersListVC {
@@ -181,6 +181,7 @@ extension FollowersListVC: UICollectionViewDelegate {
         let followersList: [Follower] = isSearching ? filteredFollowers : followers
         let selectedFollower = followersList[indexPath.row]
         let userDetailsVC = UserDetailsVC(follower: selectedFollower)
+        userDetailsVC.delegate = self
         present(UINavigationController(rootViewController: userDetailsVC), animated: true)
     }
 }
@@ -215,5 +216,29 @@ extension FollowersListVC: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         isSearching.toggle()
         updateCollectionView(with: followers)
+    }
+}
+
+extension FollowersListVC: UserDetailsVCDelegate {
+    func didRequestFollowers(for user: User) {
+        
+        userName = user.login
+        title = userName
+        
+        followers = []
+        filteredFollowers = []
+
+        pageCount = 1
+        hasMoreFollowers = true
+        isSearching = false
+    
+        
+        
+        getFollowers()
+//        collectionView?.setContentOffset(.zero, animated: true)
+//        collectionView?.scrollsToTop = true
+        updateCollectionView(with: followers)
+        
+        // FIXME: - Weird search bar issue.
     }
 }

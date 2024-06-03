@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 fileprivate var loaderContainerView: UIView!
 
@@ -65,5 +66,10 @@ extension UIViewController {
             imageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 150),
             imageLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 40)
         ])
+    }
+    
+    func openInSafariVC(with url: URL) {
+        let safariVC = SFSafariViewController(url: url)
+        present(safariVC, animated: true)
     }
 }

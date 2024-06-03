@@ -44,8 +44,8 @@ class SearchVC: UIViewController {
             [
                 imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
                 imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                imageView.heightAnchor.constraint(equalToConstant: 100),
-                imageView.widthAnchor.constraint(equalToConstant: 100)
+                imageView.heightAnchor.constraint(equalToConstant: 200),
+                imageView.widthAnchor.constraint(equalToConstant: 200)
             ])
     }
     

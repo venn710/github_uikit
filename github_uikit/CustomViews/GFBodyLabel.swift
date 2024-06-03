@@ -18,7 +18,7 @@ class GFBodyLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(bodyTextAlignment: NSTextAlignment, bodyTextColor: UIColor){
+    init(bodyTextAlignment: NSTextAlignment, bodyTextColor: UIColor = .secondaryLabel){
         super.init(frame: .zero)
         
         textAlignment = bodyTextAlignment
