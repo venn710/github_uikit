@@ -35,6 +35,7 @@ class FollowersListVC: UIViewController {
         configureDataSource()
         configureSearchBar()
         getFollowers()
+        configureFavouritesButton()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,6 +47,51 @@ class FollowersListVC: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.setNavigationBarHidden(false, animated: true)
         title = userName
+    }
+    
+    private func configureFavouritesButton() {
+        let uiButtonBarItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addUserToFavourites))
+        navigationItem.rightBarButtonItem = uiButtonBarItem
+    }
+    
+    @objc func addUserToFavourites() {
+        
+        Task {
+            let userData: Result<User, ApiError> = await NetworkManager.shared.makeAPICall(apiCall: ApiEndPoints.getUserData(login: userName))
+            
+            switch userData {
+            case .success(let success):
+                let error = PersistentManager.shared.modify(
+                        favourite: Follower(
+                            login: success.login,
+                            avatarUrl: success.avatarUrl
+                        ),
+                        type: .add
+                    )
+                
+                if let error {
+                    presentAlertOnMainThread(
+                        alertTitle: "Something went wrong",
+                        alertMessage: error.rawValue,
+                        buttonTitle: "OK"
+                    )
+                    return
+                }
+                
+                presentAlertOnMainThread(
+                    alertTitle: "Success!",
+                    alertMessage: "You have successfully favourited this user",
+                    buttonTitle: "Hooray!!"
+                )
+
+            case .failure(let failure):
+                presentAlertOnMainThread(
+                    alertTitle: "Something went wrong",
+                    alertMessage: failure.rawValue,
+                    buttonTitle: "OK"
+                )
+            }
+        }
     }
     
     private func getFollowers() {
@@ -88,6 +134,7 @@ class FollowersListVC: UIViewController {
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reUseId)
     }
     
+    /// Made it generic so we can pass any number of columns we want.
     private func configureCustomColumnCollectionViewLayout(with columns: Int = 3) -> UICollectionViewFlowLayout {
         let width: Double = view.bounds.width
         let padding: Double = 12
@@ -204,7 +251,7 @@ extension FollowersListVC: UICollectionViewDelegate {
 extension FollowersListVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let searchText = searchController.searchBar.text, searchText.isNotEmpty else { return }
-        isSearching.toggle()
+        isSearching = true
         filteredFollowers = followers.filter { _follower in
             _follower.login.lowercased().contains(searchText.lowercased())
         }
@@ -214,7 +261,7 @@ extension FollowersListVC: UISearchResultsUpdating {
 /// To Implement SearchBar button functionality.
 extension FollowersListVC: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearching.toggle()
+        isSearching = false
         updateCollectionView(with: followers)
     }
 }
@@ -231,14 +278,9 @@ extension FollowersListVC: UserDetailsVCDelegate {
         pageCount = 1
         hasMoreFollowers = true
         isSearching = false
-    
         
+        navigationItem.searchController?.isActive = false
         
         getFollowers()
-//        collectionView?.setContentOffset(.zero, animated: true)
-//        collectionView?.scrollsToTop = true
-        updateCollectionView(with: followers)
-        
-        // FIXME: - Weird search bar issue.
     }
 }

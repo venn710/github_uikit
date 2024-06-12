@@ -118,7 +118,11 @@ extension SearchVC  {
 //            navigationController?.present(gfAlertVC, animated: true)
 ////            present(gfAlertVC, animated: true)
             
-            presentAlertOnMainThread(alertTitle: "Title can be this long so that can be easily visible to the user", alertMessage: "Baby you light up my world like nobody else, the way that you flip your hair gets me overwhelmed, but when you smile at the ground it ain't hard to tell you don't know oh-oh, you don't know you're beatiful.", buttonTitle: "OneDirection")
+            presentAlertOnMainThread(
+                alertTitle: "Empty username",
+                alertMessage: "Please enter the username",
+                buttonTitle: "OK"
+            )
             
             return
         }
