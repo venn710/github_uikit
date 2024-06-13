@@ -8,9 +8,8 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
@@ -19,38 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = buildTabBar()
+        window?.rootViewController = GFTabBarController()
         window?.makeKeyAndVisible()
-    }
-
-    func buildTabBar() -> UITabBarController {
-        
-        UITabBar.appearance().tintColor = .systemGreen
-        UITabBar.appearance().backgroundColor = .systemBackground
-        
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [buildSearchNC(), buildFavoritesNC()]
-        
-        return tabBarController
-    }
-    
-    func buildSearchNC() -> UINavigationController {
-        
-        let searchVC = SearchVC()
-        searchVC.title = "Search"
-        searchVC.tabBarItem.title = "Search"
-        searchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-        
-        return UINavigationController(rootViewController: searchVC)
-    }
-
-    func buildFavoritesNC() -> UINavigationController {
-        
-        let favoritesVC = FavoritesVC()
-        favoritesVC.title = "Favorites"
-        favoritesVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 1)
-        
-        return UINavigationController(rootViewController: favoritesVC)
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -87,7 +56,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 extension SceneDelegate {
     
     func configureNavigationBar() {
-        
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         UINavigationBar.appearance().tintColor = .systemGreen

@@ -41,16 +41,12 @@ class GFUserInfoItemVC: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
-        
-        view.addSubview(stackView)
+        view.addSubViews(stackView, buttonView)
         
         userInfoItem1.translatesAutoresizingMaskIntoConstraints = false
         userInfoItem2.translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(userInfoItem1)
         stackView.addArrangedSubview(userInfoItem2)
-        
-        view.addSubview(buttonView)
-        
         
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),

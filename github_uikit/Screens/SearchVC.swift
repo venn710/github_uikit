@@ -16,8 +16,8 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
-        
+        view.backgroundColor = .systemBackground        
+        view.addSubViews(imageView, userNameTextField, gfButton)
         configureImageView()
         configureTextFieldView()
         configureButtonView()
@@ -26,32 +26,32 @@ class SearchVC: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        /// Kept here but not in viewDidLoad because viewDidLoad will call only once like if we push some othet screen and come back again then
+        userNameTextField.text = ""
+        /// Kept here but not in viewDidLoad because viewDidLoad will call only once like if we push some other screen and come back again then
         /// If we write this piece of code in viewDidLoad then navBar will come again because it was there in the new screen that was pushed so
         /// If we write this here then everytime this screen appears navBar will be hidden.
         navigationController?.isNavigationBarHidden = true
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     func configureImageView() {
-        
-        view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(named: "gh-logo")
+        imageView.image = GFImages.ghLogo
         
-        NSLayoutConstraint.activate(
-            [
-                imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
+        let topConstraintConstant: Double = (DeviceTypes.isIphoneSE || DeviceTypes.isIphone8Zoomed) ? 10 : 80
+        
+        NSLayoutConstraint.activate([
+                imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant),
                 imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                imageView.heightAnchor.constraint(equalToConstant: 200),
-                imageView.widthAnchor.constraint(equalToConstant: 200)
+                imageView.heightAnchor.constraint(equalToConstant: 180),
+                imageView.widthAnchor.constraint(equalToConstant: 180)
             ])
     }
     
     func configureTextFieldView() {
-        
-        view.addSubview(userNameTextField)
         userNameTextField.delegate = self
         NSLayoutConstraint
             .activate(
@@ -64,8 +64,6 @@ class SearchVC: UIViewController {
     }
     
     func configureButtonView() {
-        
-        view.addSubview(gfButton)
         gfButton.addTarget(self, action: #selector(pushFollowersList), for: .touchUpInside)
         NSLayoutConstraint
             .activate(
@@ -127,8 +125,8 @@ extension SearchVC  {
             return
         }
         
+        userNameTextField.resignFirstResponder()
         let followersListVC = FollowersListVC(userName: userName)
-        
         navigationController?.pushViewController(followersListVC, animated: true)
     }
 }

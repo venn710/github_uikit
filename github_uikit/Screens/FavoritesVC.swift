@@ -123,9 +123,6 @@ extension FavoritesVC: UITableViewDelegate {
         guard editingStyle == .delete else { return }
         let favouritedUser = favourites[indexPath.row]
         
-        favourites.remove(at: indexPath.row)
-        uiTableView.deleteRows(at: [indexPath], with: .fade)
-        
         let error = PersistentManager.shared.modify(
             favourite: favouritedUser,
             type: .delete
@@ -136,6 +133,9 @@ extension FavoritesVC: UITableViewDelegate {
                 alertMessage: error.rawValue,
                 buttonTitle: "OK"
             )
+        } else {
+            favourites.remove(at: indexPath.row)
+            uiTableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 }

@@ -10,6 +10,17 @@ import UIKit
 class GFUserInfoHeaderVC: UIViewController {
     
     var userDetails: User!
+    
+    let hStackView = UIStackView()
+    let vStackView = UIStackView()
+    let userNameLabel = GFTitleLabel(
+        titleTextAlignment: .center, titleTextColor: .label, titleFontSize: 26)
+    let nameLabel = GFTitleLabel(
+        titleTextAlignment: .center, titleTextColor: .secondaryLabel, titleFontSize: 14)
+    let locationLabel = GFTitleLabel(
+        titleTextAlignment: .center, titleTextColor: .secondaryLabel, titleFontSize: 18)
+    let bioLabel = GFBodyLabel(bodyTextAlignment: .left, bodyTextColor: .secondaryLabel)
+    
     init(userDetails: User!) {
         self.userDetails = userDetails
         super.init(nibName: nil, bundle: nil)
@@ -21,42 +32,41 @@ class GFUserInfoHeaderVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        layoutViews()
+        view.addSubViews(hStackView, bioLabel)
+        configureHStackLayout()
+        configureBioLabel()
     }
     
-    private func layoutViews() {
-        let hStackView = UIStackView()
+    private func configureHStackLayout() {
         hStackView.translatesAutoresizingMaskIntoConstraints = false
         hStackView.axis = .horizontal
         hStackView.spacing = 20
         hStackView.alignment = .top
         
-        view.addSubview(hStackView)
-        
         NSLayoutConstraint.activate([
-            hStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            ])
+            hStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+        ])
         
         let imageView = GFAvatarImageView(frame: .zero)
         Task {
             await imageView.downloadImage(from: userDetails.avatarUrl)
         }
         
-        hStackView.addArrangedSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.heightAnchor.constraint(equalToConstant: 100),
+            imageView.widthAnchor.constraint(equalToConstant: 100)
+        ])
         
-        let vStackView = UIStackView()
+        hStackView.addArrangedSubview(imageView)
+        configureVStackLayout()
+        hStackView.addArrangedSubview(vStackView)
+    }
+    
+    private func configureVStackLayout() {
+        vStackView.translatesAutoresizingMaskIntoConstraints = false
         vStackView.axis = .vertical
         vStackView.spacing = 4
-        vStackView.translatesAutoresizingMaskIntoConstraints = false
         vStackView.alignment = .leading
-        
-        let userNameLabel = GFTitleLabel(
-            titleTextAlignment: .center, titleTextColor: .label, titleFontSize: 26)
-        let nameLabel = GFTitleLabel(
-            titleTextAlignment: .center, titleTextColor: .secondaryLabel, titleFontSize: 14)
-        let locationLabel = GFTitleLabel(
-            titleTextAlignment: .center, titleTextColor: .secondaryLabel, titleFontSize: 18)
-    
         
         userNameLabel.text = userDetails.login
         nameLabel.text = userDetails.name
@@ -69,21 +79,18 @@ class GFUserInfoHeaderVC: UIViewController {
         if userDetails.location != nil{
             vStackView.addArrangedSubview(locationLabel)
         }
-        
-        hStackView.addArrangedSubview(vStackView)
-        
-        let bioLabel = GFBodyLabel(bodyTextAlignment: .left, bodyTextColor: .secondaryLabel)
+    }
+    
+    private func configureBioLabel() {
         bioLabel.text = userDetails.bio?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "No bio available"
         bioLabel.numberOfLines = 3
         bioLabel.lineBreakMode = .byTruncatingTail
-        view.addSubview(bioLabel)
         
         NSLayoutConstraint.activate([
-            imageView.heightAnchor.constraint(equalToConstant: 100),
-            imageView.widthAnchor.constraint(equalToConstant: 100),
-            bioLabel.topAnchor.constraint(equalTo: hStackView.bottomAnchor, constant: 20),
+            bioLabel.topAnchor.constraint(equalTo: hStackView.bottomAnchor, constant: 10),
             bioLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bioLabel.heightAnchor.constraint(equalToConstant: 90)
         ])
     }
 }

@@ -18,14 +18,18 @@ class GFTitleLabel: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(titleTextAlignment: NSTextAlignment, titleTextColor: UIColor, titleFontSize: CGFloat){
-        super.init(frame: .zero)
+    /*
+     convenience initialisers are secondary, supporting initialisers for a class, we can define a convenience
+     initialiser to call a designated initialiser from the same class as the convenience initialiser with some of
+     the designated initialiser’s parameters set to default values.
+     */
+    convenience init(titleTextAlignment: NSTextAlignment, titleTextColor: UIColor, titleFontSize: CGFloat){
+        // Here setting designated initialisers frame value to .zero by default.
+        self.init(frame: .zero)
         
         self.textAlignment = titleTextAlignment
         self.textColor = titleTextColor
         self.font = UIFont.systemFont(ofSize: titleFontSize, weight: .bold)
-        
-        configure()
     }
     
     private func configure() {

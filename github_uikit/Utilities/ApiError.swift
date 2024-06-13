@@ -17,5 +17,4 @@ enum ApiError: String, Error {
     case unableToFavouriteUser = "Unable to favourite this user, Please try again"
     case unableToRetrieveFollowers = "Unable to retrieve followers, Please try again"
     case alreadyInFavourites = "User is already in favourites"
-    
 }

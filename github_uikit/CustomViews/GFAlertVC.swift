@@ -29,12 +29,13 @@ class GFAlertVC: UIViewController {
     let titleLabel = GFTitleLabel(titleTextAlignment: .center, titleTextColor: .label, titleFontSize: 20)
     let bodyLabel = GFBodyLabel(bodyTextAlignment: .center, bodyTextColor: .label)
     let actionButtonView = GFButton(backgroundColor: .systemPink, title: "Ok")
-    let containerView = UIView()
+    let containerView = GFAlertContainerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.75)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+        view.addSubViews(containerView, titleLabel, bodyLabel, actionButtonView)
         
         configureAlertView()
         configureTitleLabel()
@@ -44,14 +45,6 @@ class GFAlertVC: UIViewController {
     }
     
     private func configureAlertView() {
-        
-        view.addSubview(containerView)
-        containerView.backgroundColor = .systemBackground
-        containerView.layer.cornerRadius = 12
-        containerView.layer.borderWidth = 2
-        containerView.layer.borderColor = UIColor.white.cgColor
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate(
             [
                 containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -65,11 +58,8 @@ class GFAlertVC: UIViewController {
         
         titleLabel.text = alertTitle
         titleLabel.numberOfLines = 10
-        containerView.addSubview(titleLabel)
-        
         NSLayoutConstraint.activate(
             [
-                
                 titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20),
                 titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 20),
                 titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -20)
@@ -81,7 +71,6 @@ class GFAlertVC: UIViewController {
         
         bodyLabel.text = alertDescription
         bodyLabel.numberOfLines = 10
-        containerView.addSubview(bodyLabel)
         
         NSLayoutConstraint.activate(
             [
@@ -93,8 +82,6 @@ class GFAlertVC: UIViewController {
     }
     
     private func configureActionButton() {
-        
-        containerView.addSubview(actionButtonView)
         actionButtonView.setTitle(buttonText, for: .normal)
         
         actionButtonView.addTarget(self, action: #selector(popAlert), for: .touchUpInside)

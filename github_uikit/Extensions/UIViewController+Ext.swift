@@ -21,6 +21,10 @@ extension UIViewController {
         }
     }
     
+    /*
+     Here we can refactor this and keep in a separate ViewController say LoadingVC and extend the classes which has the loading capability
+     with LoadingVC, so that other non loading VC's will not have the capability to showLoaders and all.
+     */
     func showLoader() {
         loaderContainerView = UIView(frame: view.bounds)
         guard let loaderContainerView else { return }
@@ -36,8 +40,8 @@ extension UIViewController {
         loaderContainerView.addSubview(activityIndicator)
         activityIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            activityIndicator.centerXAnchor.constraint(equalTo: loaderContainerView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: loaderContainerView.centerYAnchor),
         ])
         activityIndicator.startAnimating()
     }
@@ -47,25 +51,10 @@ extension UIViewController {
         loaderContainerView = nil
     }
     
-    // FIXME: - Refactor this code.
     func showEmptyStateView(with title: String) {
-        let titleLabel = GFTitleLabel(titleTextAlignment: .center, titleTextColor: .secondaryLabel, titleFontSize: 28)
-        titleLabel.text = title
-        titleLabel.numberOfLines = 3
-        let imageLabel = UIImageView(image: UIImage(named: "empty-state-logo"))
-        view.addSubview(titleLabel)
-        view.addSubview(imageLabel)
-        
-        imageLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 12),
-            titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -150),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -12),
-            
-            imageLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 150),
-            imageLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 40)
-        ])
+        let emptyStateView = GFEmptyStateView(message: title)
+        emptyStateView.frame = view.bounds
+        view.addSubview(emptyStateView)
     }
     
     func openInSafariVC(with url: URL) {

@@ -16,6 +16,9 @@ class FollowersListVC: UIViewController {
     var hasMoreFollowers: Bool = true
     var isSearching: Bool = false
     
+    // To Prevent Race conditions when the network connection is slow.
+    private var isLoadingMoreFollowers: Bool = false
+    
     var collectionView: UICollectionView?
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>?
     
@@ -96,12 +99,14 @@ class FollowersListVC: UIViewController {
     
     private func getFollowers() {
         
+        isLoadingMoreFollowers = true
         Task {
             showLoader()
 //            try? await Task.sleep(for: .seconds(2))
             let response: Result<[Follower], ApiError> = await NetworkManager.shared.makeAPICall(apiCall: ApiEndPoints.getFollowers(userName: userName, page: pageCount))
             dismissLoader()
             
+            isLoadingMoreFollowers = false
             switch response {
             case .success(let success):
                 if success.count < 100 {
@@ -123,7 +128,13 @@ class FollowersListVC: UIViewController {
     }
     
     private func configureUICollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: configureCustomColumnCollectionViewLayout(with: 3))
+        collectionView = UICollectionView(
+            frame: view.bounds,
+            collectionViewLayout: UIHelper.configureCustomColumnCollectionViewLayout(
+                in: view,
+                with: 3
+            )
+        )
         collectionView?.delegate = self
         
 //        collectionView?.dataSource = self
@@ -132,20 +143,6 @@ class FollowersListVC: UIViewController {
         view.addSubview(collectionView)
         collectionView.backgroundColor = .systemBackground
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reUseId)
-    }
-    
-    /// Made it generic so we can pass any number of columns we want.
-    private func configureCustomColumnCollectionViewLayout(with columns: Int = 3) -> UICollectionViewFlowLayout {
-        let width: Double = view.bounds.width
-        let padding: Double = 12
-        let minimumItemSpacing: Double = 10
-        let availableWidth: Double = width - (padding * 2) - Double(columns - 1) * minimumItemSpacing
-        let itemWidth: Double = availableWidth / Double(columns)
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
-        return flowLayout
     }
     
     /// Method-1 to implement DataSource
@@ -175,7 +172,6 @@ class FollowersListVC: UIViewController {
     private func configureSearchBar() {
         let searchBarController = UISearchController()
         searchBarController.searchResultsUpdater = self
-        searchBarController.searchBar.delegate = self
         searchBarController.searchBar.placeholder = "Search for a username"
         searchBarController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchBarController
@@ -217,7 +213,7 @@ extension FollowersListVC: UICollectionViewDelegate {
     
     /// Method-2 to implement Pagination
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        guard hasMoreFollowers else { return }
+        guard hasMoreFollowers, !isLoadingMoreFollowers else { return }
         if (indexPath.row == followers.count - 1) {
             pageCount += 1
             getFollowers()
@@ -250,19 +246,17 @@ extension FollowersListVC: UICollectionViewDelegate {
 /// To implement the SearchBar Input functionality.
 extension FollowersListVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        guard let searchText = searchController.searchBar.text, searchText.isNotEmpty else { return }
+        guard let searchText = searchController.searchBar.text, searchText.isNotEmpty else {
+            filteredFollowers.removeAll()
+            isSearching = false
+            updateCollectionView(with: followers)
+            return
+        }
         isSearching = true
         filteredFollowers = followers.filter { _follower in
             _follower.login.lowercased().contains(searchText.lowercased())
         }
         updateCollectionView(with: filteredFollowers)
-    }
-}
-/// To Implement SearchBar button functionality.
-extension FollowersListVC: UISearchBarDelegate {
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearching = false
-        updateCollectionView(with: followers)
     }
 }
 

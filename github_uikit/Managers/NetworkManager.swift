@@ -27,6 +27,9 @@ final class NetworkManager {
             }
             let jsonDecoder = JSONDecoder()
             jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+            
+            // We can use this to convert to Dates directly from response so while defining in model also we can define it as a type Date instead of converting from String to Date again.
+//            jsonDecoder.dateDecodingStrategy = .iso8601
             let decodedData = try? jsonDecoder.decode(T.self, from: data)
             guard let decodedData = decodedData else {
                 throw ApiError.decodingError

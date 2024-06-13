@@ -22,9 +22,8 @@ class FavouriteCell: UITableViewCell {
     }
     
     private func configure() {
-        addSubview(avatarImageView)
-        addSubview(userNameLabel)
-        
+        addSubViews(avatarImageView, userNameLabel)
+
         accessoryType = .disclosureIndicator
         NSLayoutConstraint.activate([
             avatarImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),

@@ -23,9 +23,7 @@ class GFUserInfoItemView: UIView {
     
     
     private func configureView() {
-        addSubview(imageView)
-        addSubview(bodyLabel)
-        addSubview(countLabel)
+        addSubViews(imageView, bodyLabel, countLabel)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -52,16 +50,16 @@ class GFUserInfoItemView: UIView {
         
         switch type {
         case .repos:
-            imageView.image = UIImage(systemName: "folder")
+            imageView.image = UIImage(systemName: GFSFSymbols.repos)
             bodyLabel.text = "Public Repos"
         case .followers:
-            imageView.image = UIImage(systemName: "heart")
+            imageView.image = UIImage(systemName: GFSFSymbols.followers)
             bodyLabel.text = "Followers"
         case .following:
-            imageView.image = UIImage(systemName: "person.2")
+            imageView.image = UIImage(systemName: GFSFSymbols.following)
             bodyLabel.text = "Following"
         case .gists:
-            imageView.image = UIImage(systemName: "text.alignleft")
+            imageView.image = UIImage(systemName: GFSFSymbols.gists)
             bodyLabel.text = "Public Gists"
         }
         countLabel.text = String(count)

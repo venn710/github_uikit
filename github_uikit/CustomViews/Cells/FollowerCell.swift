@@ -29,14 +29,15 @@ class FollowerCell: UICollectionViewCell {
     }
     
     private func configure() {
-        addSubview(avatarImageView)
+        addSubViews(avatarImageView, userNameLabel)
+
         NSLayoutConstraint.activate([
             avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             avatarImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor)
         ])
-        addSubview(userNameLabel)
+
         NSLayoutConstraint.activate([
             userNameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 12),
             userNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
