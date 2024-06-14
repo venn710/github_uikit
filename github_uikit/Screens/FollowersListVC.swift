@@ -96,6 +96,10 @@ class FollowersListVC: UIViewController {
         }
     }
     
+    /*
+    Updating anything in the UI/Class that is marked as MainActor will make sure it runs on main thread.
+     */
+    
     private func getFollowers() {
         isLoadingMoreFollowers = true
         Task {

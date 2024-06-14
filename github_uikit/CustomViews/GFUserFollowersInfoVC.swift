@@ -20,9 +20,8 @@ class GFUserFollowersInfoVC: GFUserInfoItemVC {
     private func configureVC() {
         userInfoItem1.setUpInfoItem(using: .followers, with: userDetails.followers)
         userInfoItem2.setUpInfoItem(using: .following, with: userDetails.following)
-        buttonView.setTitle("Get Followers", for: .normal)
-        buttonView.backgroundColor = .systemGreen
-        
+
+        buttonView.set(color: .systemGreen, title: "Get Followers", systemImageName: "person.3")
         buttonView.addTarget(self, action: #selector(handleGetFollowers), for: .touchUpInside)
     }
     

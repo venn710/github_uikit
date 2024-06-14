@@ -19,9 +19,8 @@ class GFUserRepoInfoVC: GFUserInfoItemVC {
     private func configureVC() {
         userInfoItem1.setUpInfoItem(using: .repos, with: userDetails.publicRepos)
         userInfoItem2.setUpInfoItem(using: .gists, with: userDetails.publicGists)
-        buttonView.setTitle("GitHub Profile", for: .normal)
-        buttonView.backgroundColor = .systemPurple
         
+        buttonView.set(color: .systemPurple, title: "GitHub Profile", systemImageName: "person")
         buttonView.addTarget(self, action: #selector(handleProfile), for: .touchUpInside)
     }
     
