@@ -8,6 +8,7 @@
 import UIKit
 
 class GFAlertContainerView: UIView {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -18,10 +19,10 @@ class GFAlertContainerView: UIView {
     }
 
     private func configure() {
+        translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemBackground
         layer.cornerRadius = 12
         layer.borderWidth = 2
         layer.borderColor = UIColor.white.cgColor
-        translatesAutoresizingMaskIntoConstraints = false
     }
 }

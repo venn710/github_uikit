@@ -33,7 +33,6 @@ class GFTitleLabel: UILabel {
     }
     
     private func configure() {
-    
         adjustsFontSizeToFitWidth = true
         minimumScaleFactor = 0.9
         lineBreakMode = .byTruncatingTail

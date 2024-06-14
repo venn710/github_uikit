@@ -8,7 +8,6 @@
 import UIKit
 
 enum UIHelper {
-    
     /// Made it generic so we can pass any number of columns we want.
     static func configureCustomColumnCollectionViewLayout(in view: UIView, with columns: Int = 3) -> UICollectionViewFlowLayout {
         let width: Double = view.bounds.width

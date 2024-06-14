@@ -44,7 +44,8 @@ class GFUserInfoHeaderVC: UIViewController {
         hStackView.alignment = .top
         
         NSLayoutConstraint.activate([
-            hStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
+            hStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            hStackView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
         
         let imageView = GFAvatarImageView(frame: .zero)
@@ -79,6 +80,9 @@ class GFUserInfoHeaderVC: UIViewController {
         if userDetails.location != nil{
             vStackView.addArrangedSubview(locationLabel)
         }
+        
+        locationLabel.numberOfLines = 1
+        locationLabel.lineBreakMode = .byTruncatingTail
     }
     
     private func configureBioLabel() {

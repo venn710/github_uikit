@@ -15,9 +15,9 @@ class SearchVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemBackground        
+        view.backgroundColor = .systemBackground
         view.addSubViews(imageView, userNameTextField, gfButton)
+        
         configureImageView()
         configureTextFieldView()
         configureButtonView()
@@ -42,86 +42,73 @@ class SearchVC: UIViewController {
         imageView.image = GFImages.ghLogo
         
         let topConstraintConstant: Double = (DeviceTypes.isIphoneSE || DeviceTypes.isIphone8Zoomed) ? 10 : 80
-        
         NSLayoutConstraint.activate([
-                imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant),
-                imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                imageView.heightAnchor.constraint(equalToConstant: 180),
-                imageView.widthAnchor.constraint(equalToConstant: 180)
-            ])
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant),
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 180),
+            imageView.widthAnchor.constraint(equalToConstant: 180)
+        ])
     }
     
     func configureTextFieldView() {
         userNameTextField.delegate = self
-        NSLayoutConstraint
-            .activate(
-                [
-                    userNameTextField.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50),
-                    userNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-                    userNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-                    userNameTextField.heightAnchor.constraint(equalToConstant: 50)
-                ])
+        NSLayoutConstraint.activate([
+            userNameTextField.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50),
+            userNameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            userNameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            userNameTextField.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
     func configureButtonView() {
         gfButton.addTarget(self, action: #selector(pushFollowersList), for: .touchUpInside)
-        NSLayoutConstraint
-            .activate(
-                [
-                    gfButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-                    gfButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-                    gfButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-                    gfButton.heightAnchor.constraint(equalToConstant: 40)
-                ])
-    } 
+        NSLayoutConstraint.activate([
+            gfButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            gfButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            gfButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            gfButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
     
     func configureOnTapGesture() {
-        
         let tapGesture = UITapGestureRecognizer(
             target: self.view, action: #selector(UIView.endEditing(_:)))
         view.addGestureRecognizer(tapGesture)
-        
     }
 }
 
 
 /// To handle the tap of the done/go or any return button in keyboard we need to give the delegate to that specific textfield and the delegate needs to be handled.
 extension SearchVC: UITextFieldDelegate {
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         pushFollowersList()
         return true
     }
-    
 }
 
 extension SearchVC  {
-    
     private var isUserNameEntered: Bool {
-        
         guard let userName = userNameTextField.text else { return false }
         return userName.isNotEmpty
     }
     
     @objc func pushFollowersList() {
-        
         guard isUserNameEntered,
               let userName = userNameTextField.text else {
             
-//            let gfAlertVC = GFAlertVC(alertTitle: "Title can be this long so that can be easily visible to the user", alertDescription: "Baby you light up my world like nobody else, the way that you flip your hair gets me overwhelmed, but when you smile at the ground it ain't hard to tell you don't know oh-oh, you don't know you're beatiful.", buttonText: "OKAYYYY")
-//            
-//            gfAlertVC.modalPresentationStyle = .overFullScreen
-//            gfAlertVC.modalTransitionStyle = .crossDissolve
-//            
-//            navigationController?.present(gfAlertVC, animated: true)
-////            present(gfAlertVC, animated: true)
+            //            let gfAlertVC = GFAlertVC(alertTitle: "Title can be this long so that can be easily visible to the user", alertDescription: "Baby you light up my world like nobody else, the way that you flip your hair gets me overwhelmed, but when you smile at the ground it ain't hard to tell you don't know oh-oh, you don't know you're beatiful.", buttonText: "OKAYYYY")
+            //
+            //            gfAlertVC.modalPresentationStyle = .overFullScreen
+            //            gfAlertVC.modalTransitionStyle = .crossDissolve
+            //
+            //            navigationController?.present(gfAlertVC, animated: true)
+            ////            present(gfAlertVC, animated: true)
             
             presentAlertOnMainThread(
                 alertTitle: "Empty username",
                 alertMessage: "Please enter the username",
                 buttonTitle: "OK"
             )
-            
             return
         }
         

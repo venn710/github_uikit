@@ -8,6 +8,7 @@
 import UIKit
 
 class FollowerCell: UICollectionViewCell {
+    
     static let reUseId = "FollowerCell"
     let avatarImageView = GFAvatarImageView(frame: .zero)
     let userNameLabel = GFTitleLabel(titleTextAlignment: .center, titleTextColor: .systemCyan, titleFontSize: 16)
@@ -30,18 +31,17 @@ class FollowerCell: UICollectionViewCell {
     
     private func configure() {
         addSubViews(avatarImageView, userNameLabel)
-
         NSLayoutConstraint.activate([
-            avatarImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            avatarImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            avatarImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            avatarImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
+            avatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             avatarImageView.heightAnchor.constraint(equalTo: avatarImageView.widthAnchor)
         ])
 
         NSLayoutConstraint.activate([
             userNameLabel.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 12),
-            userNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            userNameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            userNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            userNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
             userNameLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
         translatesAutoresizingMaskIntoConstraints = false

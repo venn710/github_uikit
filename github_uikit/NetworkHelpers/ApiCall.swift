@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 protocol ApiCall {
     var endPoint: String { get }
     var method: String { get }
@@ -14,10 +15,10 @@ protocol ApiCall {
 }
 
 extension ApiCall {
-    
     private var baseURL: String {
         "https://api.github.com"
     }
+    
     func getUrlRequest() throws -> URLRequest {
         guard let url = URL(string: baseURL + endPoint) else {
             throw ApiError.invalidUrl

@@ -8,6 +8,7 @@
 import UIKit
 
 class GFAvatarImageView: UIImageView {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -25,7 +26,6 @@ class GFAvatarImageView: UIImageView {
     }
     
     func downloadImage(from urlString: String) async {
-        
         if let imageCache = NetworkManager.shared.imageCache.object(forKey: NSString(string: urlString)) {
             image = imageCache
             return

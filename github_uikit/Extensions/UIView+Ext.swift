@@ -19,6 +19,7 @@ extension UIView {
         ])
         
     }
+    
     // Variadic Parameters which takes in zero or more parameters of defined type.
     func addSubViews(_ list: UIView...) {
         for view in list {

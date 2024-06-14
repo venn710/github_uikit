@@ -33,6 +33,7 @@ class FollowersListVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureVC()
         configureUICollectionView()
         configureDataSource()
@@ -71,7 +72,6 @@ class FollowersListVC: UIViewController {
                         ),
                         type: .add
                     )
-                
                 if let error {
                     presentAlertOnMainThread(
                         alertTitle: "Something went wrong",
@@ -80,7 +80,6 @@ class FollowersListVC: UIViewController {
                     )
                     return
                 }
-                
                 presentAlertOnMainThread(
                     alertTitle: "Success!",
                     alertMessage: "You have successfully favourited this user",
@@ -98,7 +97,6 @@ class FollowersListVC: UIViewController {
     }
     
     private func getFollowers() {
-        
         isLoadingMoreFollowers = true
         Task {
             showLoader()
@@ -136,7 +134,6 @@ class FollowersListVC: UIViewController {
             )
         )
         collectionView?.delegate = self
-        
 //        collectionView?.dataSource = self
         
         guard let collectionView else { return }
@@ -185,10 +182,7 @@ extension FollowersListVC {
     }
 }
 
-
 extension FollowersListVC: UICollectionViewDelegate {
-    
-    
     /*
      iPhone 15Pro
      SafeArea Height in top is 59 (54+5)
@@ -242,7 +236,6 @@ extension FollowersListVC: UICollectionViewDelegate {
 //    }
 //}
 
-
 /// To implement the SearchBar Input functionality.
 extension FollowersListVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
@@ -262,13 +255,10 @@ extension FollowersListVC: UISearchResultsUpdating {
 
 extension FollowersListVC: UserDetailsVCDelegate {
     func didRequestFollowers(for user: User) {
-        
         userName = user.login
         title = userName
-        
         followers = []
         filteredFollowers = []
-
         pageCount = 1
         hasMoreFollowers = true
         isSearching = false

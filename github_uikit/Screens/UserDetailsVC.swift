@@ -82,7 +82,6 @@ class UserDetailsVC: UIViewController {
     }
     
     private func layoutUI() {
-        
         contentView.addSubViews(headerView, itemInfoView1, itemInfoView2, dateLabel)
         
         headerView.translatesAutoresizingMaskIntoConstraints = false
@@ -110,12 +109,10 @@ class UserDetailsVC: UIViewController {
             dateLabel.topAnchor.constraint(equalTo: itemInfoView2.bottomAnchor, constant: 20),
             dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
             dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
-            
         ])
     }
     
     private func configureChildVCs(with user: User) {
-        
         let userRepoInfoVC = GFUserRepoInfoVC(userDetails: user)
         let userFollowersInfoVC = GFUserFollowersInfoVC(userDetails: user)
         
@@ -147,7 +144,6 @@ extension UserDetailsVC: GFUserRepoInfoVCDelegate {
 // MARK: - Handling tap on Get Followers.
 extension UserDetailsVC: GFUserFollowerInfoVCDelegate {
     func tapOnGetFollowers(for user: User) {
-        
         guard user.followers > 0 else {
             presentAlertOnMainThread(alertTitle: "Oh No!", alertMessage: "This user doesn't have any followers", buttonTitle: "OK")
             return

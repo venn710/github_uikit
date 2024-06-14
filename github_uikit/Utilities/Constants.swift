@@ -28,7 +28,6 @@ enum GFImages {
 enum ScreenSize {
     static let width = UIScreen.main.bounds.size.width
     static let height = UIScreen.main.bounds.size.height
-    
     static let maxLength = max(width, height)
     static let minLength = min(width, height)
 }
@@ -36,7 +35,6 @@ enum ScreenSize {
 enum DeviceTypes {
     
     /*
-     
      Logical coordinate space refers to the coordinate system used by UIKit for laying out and rendering UI elements. It is measured in points
      rather than pixels.
      Native coordinate space refers to the actual pixel dimensions of the device's screen. It measures the screen in terms of its physical

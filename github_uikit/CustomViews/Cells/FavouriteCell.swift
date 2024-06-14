@@ -17,23 +17,23 @@ class FavouriteCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func configure() {
         addSubViews(avatarImageView, userNameLabel)
-
         accessoryType = .disclosureIndicator
         NSLayoutConstraint.activate([
-            avatarImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
-            avatarImageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
+            avatarImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
             avatarImageView.heightAnchor.constraint(equalToConstant: 60),
             avatarImageView.widthAnchor.constraint(equalToConstant: 60),
             
-            userNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            userNameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             userNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 24),
-            userNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12)
+            userNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12)
         ])
     }
     

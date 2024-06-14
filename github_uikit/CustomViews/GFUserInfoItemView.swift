@@ -9,18 +9,18 @@ import UIKit
 
 class GFUserInfoItemView: UIView {
     
-    init() {
-        super.init(frame: .zero)        
-        configureView()
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private var imageView = UIImageView()
     private var bodyLabel = GFTitleLabel(titleTextAlignment: .left, titleTextColor: .label, titleFontSize: 16)
     private var countLabel = GFTitleLabel(titleTextAlignment: .center, titleTextColor: .label, titleFontSize: 16)
     
+    init() {
+        super.init(frame: .zero)        
+        configureView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private func configureView() {
         addSubViews(imageView, bodyLabel, countLabel)
@@ -47,7 +47,6 @@ class GFUserInfoItemView: UIView {
     }
     
     func setUpInfoItem(using type: UserInfoTypes, with count: Int) {
-        
         switch type {
         case .repos:
             imageView.image = UIImage(systemName: GFSFSymbols.repos)

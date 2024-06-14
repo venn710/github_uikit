@@ -21,18 +21,14 @@ class GFButton: UIButton {
     
     convenience init(backgroundColor: UIColor, title: String) {
         self.init(frame: .zero)
-        
         self.backgroundColor = backgroundColor
         self.setTitle(title, for: .normal)
     }
     
-    
     private func configure() {
-        
         layer.cornerRadius = 10
         titleLabel?.textColor = .white
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
-        
         translatesAutoresizingMaskIntoConstraints = false
     }
 }

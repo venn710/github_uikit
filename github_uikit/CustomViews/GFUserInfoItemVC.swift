@@ -11,6 +11,10 @@ class GFUserInfoItemVC: UIViewController {
 
     var userDetails: User!
     
+    let userInfoItem1: GFUserInfoItemView = GFUserInfoItemView()
+    let userInfoItem2: GFUserInfoItemView = GFUserInfoItemView()
+    let buttonView = GFButton()
+    
     init(userDetails: User) {
         self.userDetails = userDetails
         super.init(nibName: nil, bundle: nil)
@@ -19,16 +23,12 @@ class GFUserInfoItemVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewBackground()
         configureVC()
     }
-    
-    var userInfoItem1: GFUserInfoItemView = GFUserInfoItemView()
-    var userInfoItem2: GFUserInfoItemView = GFUserInfoItemView()
-    var buttonView = GFButton()
-    
     
     private func configureViewBackground() {
         view.layer.cornerRadius = 24
@@ -36,7 +36,6 @@ class GFUserInfoItemVC: UIViewController {
     }
     
     private func configureVC() {
-        
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .equalSpacing

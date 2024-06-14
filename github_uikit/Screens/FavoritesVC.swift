@@ -8,6 +8,11 @@
 import UIKit
 
 class FavoritesVC: UIViewController {
+    
+    let uiTableView: UITableView = UITableView()
+    var favourites: [Follower] = []
+    
+    var uiTableViewDataSource: UITableViewDiffableDataSource<Section, Follower>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,11 +25,6 @@ class FavoritesVC: UIViewController {
         super.viewDidAppear(animated)
         getFavourites()
     }
-    
-    let uiTableView: UITableView = UITableView()
-    var favourites: [Follower] = []
-    
-    var uiTableViewDataSource: UITableViewDiffableDataSource<Section, Follower>?
 
     private func configureVC() {
         title = "Favourites"

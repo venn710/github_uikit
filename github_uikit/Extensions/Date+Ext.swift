@@ -8,6 +8,7 @@
 import Foundation
 
 extension Date {
+    
     func getFormattedString(using pattern: String) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = pattern

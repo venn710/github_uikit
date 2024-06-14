@@ -10,9 +10,7 @@ import Foundation
 struct PersistentManager {
     
     private let defaultStorage = UserDefaults.standard
-    
     private init() {}
-    
     static var shared: PersistentManager = PersistentManager()
     
     enum UpdationType {
@@ -26,9 +24,7 @@ struct PersistentManager {
 }
 
 extension PersistentManager {
-    
     func save(with followers: [Follower]) -> ApiError? {
-        
         let encoder = JSONEncoder()
         do {
             let encodedData = try encoder.encode(followers)
@@ -61,7 +57,6 @@ extension PersistentManager {
     }
     
     func retrieve() -> Result<[Follower], ApiError> {
-        
         let retrievedData: Data? = defaultStorage.object(forKey: Keys.favourites.rawValue) as? Data
         guard let retrievedData else {
             return .success([])

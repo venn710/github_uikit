@@ -21,7 +21,6 @@ extension String {
         return dateFormatter.date(from: self)
     }
     
-    
     func convertTo(from format1: String, to format2: String) -> String {
         let dateObject = getDateObject(using: format1)
         return dateObject?.getFormattedString(using: format2) ?? "N/A"
